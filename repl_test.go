@@ -21,6 +21,9 @@ func TestXxx(t *testing.T) {
 
 	for _, test := range cases {
 		result := clearInput(test.input)
+		if len(result) != len(test.expected) {
+			t.Errorf("Length mismatch: expected %d, got %d\n", len(test.expected), len(result))
+		}
 		for i, _ := range result {
 			if result[i] != test.expected[i] {
 				t.Errorf("Expected %v\n Actual %v\n ", test.expected, result)
