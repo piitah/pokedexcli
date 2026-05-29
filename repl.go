@@ -19,7 +19,7 @@ type config struct {
 type clicommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(cfg *config, args []string) error
 }
 
 func startRepl(cfg *config) {
@@ -33,8 +33,9 @@ func startRepl(cfg *config) {
 		if word == nil {
 			continue
 		}
+		args := word[1:]
 		if cmd, exist := getCommands()[word[0]]; exist {
-			err := cmd.callback(cfg)
+			err := cmd.callback(cfg, args)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -62,13 +63,18 @@ func getCommands() map[string]clicommand {
 		},
 		"map": {
 			name:        "map",
-			description: "Get the next page of locations",
+			description: "Get the previous page of locations",
 			callback:    commandMapf,
 		},
 		"mapb": {
-			name:        "map",
+			name:        "mapb",
 			description: "Get the next page of locations",
 			callback:    commandMapb,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Explore location area",
+			callback:    commandExplore,
 		},
 	}
 	return commands
