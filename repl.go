@@ -5,17 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
-	pokeapi "github.com/piitah/pokedexcli/internal/pokeapi"
-	pokecache "github.com/piitah/pokedexcli/internal/pokecache"
 )
 
-type config struct {
-	cache               pokecache.Cache
-	pokeapiClient       *pokeapi.Client
-	NextLocationURL     *string
-	PreviousLocationURL *string
-}
 type clicommand struct {
 	name        string
 	description string
@@ -75,6 +66,21 @@ func getCommands() map[string]clicommand {
 			name:        "explore",
 			description: "Explore location area",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "explore",
+			description: "Explore location area",
+			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "explore",
+			description: "Explore location area",
+			callback:    commandInspect,
+		},
+		"pokedex": {
+			name:        "explore",
+			description: "Explore location area",
+			callback:    commandPokedex,
 		},
 	}
 	return commands

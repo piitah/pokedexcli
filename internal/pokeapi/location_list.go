@@ -96,3 +96,30 @@ func (c *Client) GetLocationArea(areaName string) (*LocationAreaResponse, error)
 
 	return &result, nil
 }
+
+func (c *Client) CatchPokemon(pokemon string) (*PokemonResponse, error) {
+	url := baseURL + "/pokemon/" + pokemon
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return &PokemonResponse{}, fmt.Errorf("Somethingggg went wrong %w", err)
+	}
+
+	resp, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return &PokemonResponse{}, err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode > 399 {
+		return &PokemonResponse{}, fmt.Errorf("Bad status code %d", resp.StatusCode)
+	}
+
+	var pokemonResponse PokemonResponse
+
+	if err := json.NewDecoder(resp.Body).Decode(&pokemonResponse); err != nil {
+		return &PokemonResponse{}, err
+	}
+
+	return &pokemonResponse, nil
+}
